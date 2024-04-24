@@ -5,12 +5,12 @@ import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
 
 const appStyles = {
-  // height: '100vh',
-  // display: 'flex',
-  // justifyContent: 'start',
-  // alignItems: 'center',
-  // // fontSize: 40,
-  // color: '#010101',
+  height: '100vh',
+  display: 'flex',
+  justifyContent: 'start',
+  alignItems: 'center',
+  // fontSize: 40,
+  color: '#010101',
 };
 
 export class App extends Component {
@@ -25,6 +25,19 @@ export class App extends Component {
     name: '',
     number: '',
   };
+
+  componentDidMount() {
+    const savedContacts = localStorage.getItem('contacts');
+    if (savedContacts) {
+      this.setState({ contacts: JSON.parse(savedContacts) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.contacts !== this.state.contacts) {
+      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+    }
+  }
 
   onChangeInput = event => {
     const { name, value } = event.currentTarget;
